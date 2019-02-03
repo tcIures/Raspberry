@@ -2,12 +2,14 @@ import threading
 
 import time
 
+import ctrl
+
 from time import sleep
 
 from flask import Flask, render_template 
 
 
-direction = ""
+direction = "front"
 
 app = Flask(__name__)
 
@@ -21,6 +23,7 @@ def hello_world():
 def move_front(x=None, y=None):
     global direction
     direction = "front"
+    sleep(0.1)
     return render_template('main.html')
 
 @app.route('/move_back', methods=['POST'])
@@ -42,11 +45,15 @@ def move_right(x=None, y=None):
     return render_template('main.html')
 
 if __name__ == "__main__":
-    threading.Thread(target=app.run(host= '0.0.0.0')).start()
-    while True:
-        f = open('test.txt', 'a+')
-        if direction != '':
-            f.write(direction + '\n')
-        f.close(0.001)
-
+	ctrl.setup()
+	threading.Thread(target=app.run(host= '0.0.0.0')).start()	
+	while True:
+		if direction == "front":
+			ctrl.fd()
+		if direction == "back":
+			ctrl.bk()
+		if direction == "left":
+			ctrl.lt()
+		if direction == "right":
+			ctrl.rt()
     
