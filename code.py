@@ -42,9 +42,10 @@ def move_left(x=None, y=None):
 def move_right(x=None, y=None):
     global direction
     direction = "right"
-    return render_template('main.html')
+    return render_template('main.html')	
 
-def move():
+if __name__ == "__main__":
+	ctrl.setup()
 	while True:
 		if direction == "front":
 			ctrl.fd()
@@ -53,10 +54,6 @@ def move():
 		if direction == "left":
 			ctrl.lt()
 		if direction == "right":
-			ctrl.rt()	
-
-if __name__ == "__main__":
-	ctrl.setup()
+			ctrl.rt()
 	threading.Thread(target=app.run(host= '0.0.0.0')).start()	
-	threading.Thread(target=move()).start()
     
